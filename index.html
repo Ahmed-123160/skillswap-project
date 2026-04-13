@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<head>
+
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playwrite+DK+Uloopet+Guides&display=swap" rel="stylesheet">
+
+<title>information</title>
+<link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+    <!--HEADER-->
+<div class="header">
+    <img class="logo" src="image/155-1553063_digital-skill-swapping-cartoon.png" width="200">
+    <div class="header-links">
+        <a href="index.html">home</a>
+        <a href="chat.html">Chating</a>
+        <a href="login.html" onclick="window.location.href='login.html'; return false;">sign in</a>
+        <a href="#">about us</a>
+    </div>
+</div>
+<!--landing page-->
+<div class="landing-page">
+    <div>
+        <span>welcome to</span>
+        <h2 style="font-family: 'Playwrite DK Uloopet Guides', cursive;">Skill Swap</h2>
+        <p>Exchange knowledge • Learn together • Grow together</p>
+        <div class="landing-page-search">
+            <input placeholder="What skill you want to learn?"/>
+            <button>Search</button>
+        </div>
+    </div>
+    <div class="landing-page-image-cont">
+        <img src="image/html1.png.jpeg" width="600">
+    </div>
+</div>
+<!--category-->
+<div class="category">
+    <h1>category</h1>
+<div class="category-ph">
+<div class="cards">
+<img class="photo2" src="image/html2.png.jpeg" width="300px">
+<div class="card-info">
+<div class="card-name">
+<p>learning</p>
+<h2>Free learning</h2>
+</div>
+
+</div>
+</div>
+<div class="cards">
+<img class="photo2" src="image/html3.png.jpeg" width="300px">
+<div class="card-info">
+<div class="card-name">
+<p>Cooperation</p>
+<h2>We exchange ideas</h2>
+</div>
+
+</div>
+</div>
+<div class="cards">
+<img class="photo2" src="image/html4.png.jpeg" width="300px">
+<div class="card-info">
+<div class="card-name">
+<p>Help</p>
+<h2>We help each other</h2>
+</div>
+</div>
+</div>
+<!-- العنصر الخامس -->
+<div class="cards">
+<img class="photo2" src="image/TLMS_20231117_1200x628-1.png" width="300px">
+<div class="card-info">
+<div class="card-name">
+<p>Growth</p>
+<h2>Develop skills</h2>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- نافذة تسجيل الدخول المنبثقة -->
+<div id="signinModal" class="modal">
+    <div class="modal-content">
+        <h3>Sign In</h3>
+        <input type="text" placeholder="Username" style="padding: 8px; margin: 10px 0; width: 80%; border-radius: 20px; border: 1px solid #ccc;">
+        <input type="password" placeholder="Password" style="padding: 8px; margin: 10px 0; width: 80%; border-radius: 20px; border: 1px solid #ccc;">
+        <br>
+        <button onclick="closeModal()">Login</button>
+        <button onclick="closeModal()">Cancel</button>
+    </div>
+</div>
+
+<!-- رسالة منبثقة صغيرة -->
+<div id="toast" class="toast"></div>
+
+<script>
+    // دالة عرض رسالة
+    function showMessage(msg) {
+        let toast = document.getElementById('toast');
+        toast.textContent = msg;
+        toast.style.display = 'block';
+        setTimeout(() => {
+            toast.style.display = 'none';
+        }, 2000);
+    }
+
+    // دالة فتح نافذة تسجيل الدخول
+    function openModal() {
+        document.getElementById('signinModal').style.display = 'flex';
+    }
+
+    // دالة إغلاق النافذة
+    function closeModal() {
+        document.getElementById('signinModal').style.display = 'none';
+    }
+
+    // لما المستخدم يدوس على زر search
+    document.querySelector('.landing-page-search button').addEventListener('click', function() {
+        let input = document.querySelector('.landing-page-search input');
+        let searchText = input.value;
+        if (searchText.trim() === '') {
+            showMessage('✏️ Please enter something to search');
+        } else {
+            showMessage('🔍 Searching for: "' + searchText + '"');
+        }
+    });
+
+    // لما المستخدم يدوس Enter في حقل البحث
+    document.querySelector('.landing-page-search input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            let searchText = this.value;
+            if (searchText.trim() === '') {
+                showMessage('✏️ Please enter something to search');
+            } else {
+                showMessage('🔍 Searching for: "' + searchText + '"');
+            }
+        }
+    });
+
+    // لما المستخدم يدوس على زر sign in
+    let signinBtn = document.querySelector('.header-links button');
+    if (signinBtn) {
+        signinBtn.addEventListener('click', openModal);
+    }
+
+    // لما المستخدم يدوس على Join now
+    let joinBtn = document.querySelector('.header-links a[href="#"]');
+    let links = document.querySelectorAll('.header-links a');
+    if (links[2]) {
+        links[2].addEventListener('click', function(e) {
+            e.preventDefault();
+            showMessage('✨ Join now feature coming soon!');
+        });
+    }
+
+    // لما المستخدم يدوس على Home
+    if (links[0]) {
+        links[0].addEventListener('click', function(e) {
+            e.preventDefault();
+            showMessage('🏠 Welcome to Home page');
+        });
+    }
+
+    // لما المستخدم يدوس على Chating
+    if (links[1]) {
+        links[1].addEventListener('click', function(e) {
+            e.preventDefault();
+            showMessage('💬 Chat feature coming soon!');
+        });
+    }
+
+    // لما المستخدم يدوس على أي كارد
+    let cards = document.querySelectorAll('.cards');
+    cards.forEach((card, index) => {
+        card.addEventListener('click', function() {
+            let title = this.querySelector('.card-name h2').textContent;
+            let category = this.querySelector('.card-name p').textContent;
+            showMessage(`📚 ${category}: ${title}`);
+        });
+    });
+
+    // إغلاق النافذة لو ضغط براها
+    window.onclick = function(event) {
+        let modal = document.getElementById('signinModal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    }
+</script>
+</body>
