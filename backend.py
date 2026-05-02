@@ -5,6 +5,33 @@ import mysql.connector
 import bcrypt
 from typing import Optional
 from datetime import datetime  
+import time
+
+def get_db_connection():
+    try:
+        # Try to ping the database to see if connection is alive
+        db.ping(reconnect=True, attempts=3, delay=1)
+        return db
+    except:
+        # If failed, create new connection
+        return mysql.connector.connect(
+            host="localhost",
+            port="3307",
+            user="root",
+            password="",
+            database="skill_swap_db",
+            connection_timeout=30,
+            autocommit=True,
+            use_pure=True
+        )
+
+# Use this before each query
+def execute_query(query, params=None):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute(query, params or ())
+    conn.commit()
+    return cursor
 
 app = FastAPI()
 
@@ -84,7 +111,7 @@ def get_skills(user_id: int):
     return {"skills": skills}
 # ========== ADD SKILL ==========
 @app.post("/api/skills/{user_id}")
-def add_skill(user_id: int, skill: dict):
+def add_skill(user_id: int, skill: dict): 
     cursor.execute(
         "INSERT INTO user_skills (user_id, skill_name, skill_type) VALUES (%s, %s, %s)",
         (user_id, skill['skill_name'], skill['skill_type'])
@@ -122,4 +149,4 @@ def get_messages(user1: int, user2: int):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8002) 
+    uvicorn.run(app, host="127.0.0.1", port=8004) 
